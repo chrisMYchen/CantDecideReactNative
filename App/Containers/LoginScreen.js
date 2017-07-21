@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
 import {
   View,
   ScrollView,
@@ -9,12 +9,22 @@ import {
   Keyboard,
   LayoutAnimation
 } from 'react-native'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import Styles from './Styles/LoginScreenStyles'
 import {Images, Metrics} from '../Themes'
 import LoginActions from '../Redux/LoginRedux'
-import { Actions as NavigationActions } from 'react-native-router-flux'
-import { Button, Text as NBText, Contant, Form, Item, Input, Label, Container, Content } from 'native-base'
+import {Actions as NavigationActions} from 'react-native-router-flux'
+import {
+  Button,
+  Text as NBText,
+  Contant,
+  Form,
+  Item,
+  Input,
+  Label,
+  Container,
+  Content
+} from 'native-base'
 
 class LoginScreen extends React.Component {
 
@@ -28,18 +38,20 @@ class LoginScreen extends React.Component {
   keyboardDidShowListener = {}
   keyboardDidHideListener = {}
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       username: 'reactnative@infinite.red',
       password: 'password',
       visibleHeight: Metrics.screenHeight,
-      topLogo: { width: Metrics.screenWidth-40 }
+      topLogo: {
+        width: Metrics.screenWidth - 40
+      }
     }
     this.isAttempting = false
   }
 
-  componentWillReceiveProps (newProps) {
+  componentWillReceiveProps(newProps) {
     this.forceUpdate()
     // Did the login attempt complete?
     if (this.isAttempting && !newProps.fetching) {
@@ -47,14 +59,14 @@ class LoginScreen extends React.Component {
     }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     // Using keyboardWillShow/Hide looks 1,000 times better, but doesn't work on Android
     // TODO: Revisit this if Android begins to support - https://github.com/facebook/react-native/issues/3468
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow)
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.keyboardDidShowListener.remove()
     this.keyboardDidHideListener.remove()
   }
@@ -65,7 +77,10 @@ class LoginScreen extends React.Component {
     let newSize = Metrics.screenHeight - e.endCoordinates.height
     this.setState({
       visibleHeight: newSize,
-      topLogo: {width: 100, height: 70}
+      topLogo: {
+        width: 100,
+        height: 70
+      }
     })
   }
 
@@ -74,7 +89,9 @@ class LoginScreen extends React.Component {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     this.setState({
       visibleHeight: Metrics.screenHeight,
-      topLogo: {width: Metrics.screenWidth-40}
+      topLogo: {
+        width: Metrics.screenWidth - 40
+      }
     })
   }
 
@@ -87,50 +104,44 @@ class LoginScreen extends React.Component {
   }
 
   handleChangeUsername = (text) => {
-    this.setState({ username: text })
+    this.setState({username: text})
   }
 
   handleChangePassword = (text) => {
-    this.setState({ password: text })
+    this.setState({password: text})
   }
 
-  render () {
+  render() {
 
-    const { username, password } = this.state
-    const { fetching } = this.props
+    const {username, password} = this.state
+    const {fetching} = this.props
     const editable = !fetching
-    const textInputStyle = editable ? Styles.textInput : Styles.textInputReadonly
+    const textInputStyle = editable
+      ? Styles.textInput
+      : Styles.textInputReadonly
     return (
       <Container>
         <Content padding>
 
-        <View style={Styles.form}>
-        <Form>
-          <Item stackedLabel>
-            <Label>What's your name?</Label>
-            <Input
-               ref='username'
-               value={username}
-               editable={editable}
-               keyboardType='default'
-               returnKeyType='next'
-               autoCapitalize='none'
-               autoCorrect={false}
-               onChangeText={this.handleChangeUsername}
-               underlineColorAndroid='transparent'
-               onSubmitEditing={()=> this.password._root.focus()}
-               />
-          </Item>
-        </Form>
-          <View style={[Styles.loginRow]}>
-            <Button style={{flex: 1, justifyContent: 'center'}} full onPress={this.handlePressLogin}>
-              <NBText>
-                Get started
-              </NBText>
-            </Button>
+          <View style={Styles.form}>
+            <Form>
+              <Item stackedLabel>
+                <Label>What's your name?</Label>
+                <Input ref='username' value={username} editable={editable} keyboardType='default' returnKeyType='next' autoCapitalize='none' autoCorrect={false} onChangeText={this.handleChangeUsername} underlineColorAndroid='transparent' onSubmitEditing={() => this.password._root.focus()}/>
+              </Item>
+            </Form>
+            <View style={[Styles.loginRow]}>
+              <Button style={{
+                flex: 1,
+                justifyContent: 'center'
+              }} full onPress={this.handlePressLogin}>
+                <NBText>
+                  Get started
+                </NBText>
+              </Button>
 
+            </View>
           </View>
-        </View>
         </Content>
       </Container>
     )
@@ -139,9 +150,7 @@ class LoginScreen extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return {
-    fetching: state.login.fetching
-  }
+  return {fetching: state.login.fetching}
 }
 
 const mapDispatchToProps = (dispatch) => {

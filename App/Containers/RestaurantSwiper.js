@@ -1,79 +1,145 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import {Image} from 'react-native'
-import {Button,  Container, Content, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Icon } from 'native-base';
+import {connect} from 'react-redux'
+import {StyleSheet, Image} from 'react-native'
+import {
+  Button,
+  Container,
+  View,
+  Content,
+  CardItem,
+  Thumbnail,
+  Text,
+  Left,
+  Body,
+  Icon
+} from 'native-base';
+import SwipeCards from 'react-native-swipe-cards'
 // import Icon from 'react-native-vector-icons/Ionicons'
-const cards = [
+let cards = [
   {
     text: 'Card One',
     name: 'One',
-    image: require('../Images/food1.jpg'),
-  },
-  {
+    image: require('../Images/food1.jpg')
+  }, {
     text: 'Card Two',
     name: 'Two',
-    image: require('../Images/food2.jpeg'),
-  },
-  {
+    image: require('../Images/food2.jpeg')
+  }, {
     text: 'Card Three',
     name: 'Three',
-    image: require('../Images/food3.jpg'),
+    image: require('../Images/food3.jpg')
   }
 ];
 
-class RestaurantSwiper extends React.Component {
-  render () {
-    this._deckSwiper.setState({looping: false});
-    console.warn(DeckSwiper);
-    console.warn(cards);
-    const swiperProps = {
-      ref:(c) => this._deckSwiper = c,
-      dataSource: cards,
-      looping: false,
-      renderItem: (item) => {return (
-          <Card style={{ elevation: 3 }}>
-            <CardItem>
-              <Left>
-                <Thumbnail source={item.image} />
-                <Body>
-                  <Text>{item.text}</Text>
-                  <Text note>NativeBase</Text>
-                </Body>
-              </Left>
-            </CardItem>
-            <CardItem cardBody>
-              <Image style={{ height: 300, flex: 1 }} source={item.image} />
-            </CardItem>
-            <CardItem>
-              <Icon name="heart" style={{ color: '#ED4A6A' }} />
-              <Text>{item.name}</Text>
-            </CardItem>
-          </Card>)},
-      onSwipeRight: () => {
-          console.warn(this._deckSwiper);
-          console.warn("swipe right")
-      }
-    }
+class Card extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
     return (
-      <Container >
-          <View>
-            <DeckSwiper {...swiperProps} />
-          </View>
-          <View style={{ flexDirection: "row", flex: 1, position: "absolute", bottom: 50, left: 0, right: 0, justifyContent: 'space-between', padding: 15 }}>
-             <Button iconLeft onPress={() => this._deckSwiper._root.swipeLeft()}>
-              <Icon name="arrow-back" />
-              <Text>Swipe Left</Text>
-             </Button>
-             <Button iconRight onPress={() => this._deckSwiper._root.swipeRight()}>
-              <Icon name="arrow-forward" />
-              <Text>Swipe Right</Text>
-             </Button>
-          </View>
-      </Container>
+      <View style={styles.card}>
+        <Image style={styles.thumbnail} source={this.props.image}/>
+        <Text>This is card {this.props.name}</Text>
+      </View>
     )
   }
 }
-RestaurantSwiper.contextTypes = {drawer: React.PropTypes.object}
+
+class NoMoreCards extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <View style={styles.noMoreCards}>
+        <Button block info>
+          <Text>Info</Text>
+        </Button>
+        <Text>
+          No more!!
+        </Text>
+        <Text>No more cards</Text>
+      </View>
+    )
+  }
+}
+
+class RestaurantSwiper extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cards: cards,
+      outOfCards: false
+    }
+  }
+
+  handleYup(card) {
+    console.log("yup")
+  }
+
+  handleNope(card) {
+    console.log("nope")
+  }
+
+  cardRemoved(index) {
+    console.log(`The index is ${index}`);
+
+    let CARD_REFRESH_LIMIT = 3
+
+    if (this.state.cards.length - index <= CARD_REFRESH_LIMIT + 1) {
+      console.log(`There are only ${this.state.cards.length - index - 1} cards left.`);
+
+      if (!this.state.outOfCards) {
+        this.setState({outOfCards: true});
+      }
+
+    }
+
+  }
+  render() {
+    return (
+      <Container>
+        <SwipeCards cards={this.state.cards} loop={false} renderCard={(cardData) => <Card {...cardData}/>} renderNoMoreCards={() => <NoMoreCards/>} showYup={true} showNope={true} handleYup={this.handleYup} handleNope={this.handleNope} cardRemoved={this.cardRemoved.bind(this)}/>
+      </Container>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  card: {
+    alignItems: 'center',
+    borderRadius: 5,
+    overflow: 'hidden',
+    borderColor: 'grey',
+    backgroundColor: 'white',
+    borderWidth: 1,
+    elevation: 1
+  },
+  thumbnail: {
+    width: 300,
+    height: 300
+  },
+  text: {
+    fontSize: 20,
+    paddingTop: 10,
+    paddingBottom: 10
+  },
+  noMoreCards: {
+    fontSize: 36,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  movedown: {
+    paddingTop: 50
+  }
+});
+
+RestaurantSwiper.contextTypes = {
+  drawer: React.PropTypes.object
+}
 const mapStateToProps = (state) => {
   return {
     // ...redux state to props here
