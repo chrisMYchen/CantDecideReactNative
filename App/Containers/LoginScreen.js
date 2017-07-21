@@ -83,7 +83,7 @@ class LoginScreen extends React.Component {
     // this.isAttempting = true
     // attempt a login - a saga is listening to pick it up from here.
     // this.props.attemptLogin(username, password);
-    NavigationActions.launchScreen();
+    NavigationActions.groupCreation();
   }
 
   handleChangeUsername = (text) => {
@@ -102,11 +102,11 @@ class LoginScreen extends React.Component {
     const textInputStyle = editable ? Styles.textInput : Styles.textInputReadonly
     return (
       <ScrollView contentContainerStyle={{justifyContent: 'center'}} style={[Styles.container, {height: this.state.visibleHeight}]} keyboardShouldPersistTaps='always'>
-        <Image source={Images.logo} style={[Styles.topLogo, this.state.topLogo]} />
+
         <View style={Styles.form}>
         <Form>
           <Item stackedLabel>
-            <Label>Username</Label>
+            <Label>What's your name?</Label>
             <Input
                ref='username'
                value={username}
@@ -120,34 +120,14 @@ class LoginScreen extends React.Component {
                onSubmitEditing={()=> this.password._root.focus()}
                />
           </Item>
-          <Item stackedLabel>
-            <Label>Password</Label>
-            <Input
-              ref={(ref) => this.password = ref}
-              value={password}
-              editable={editable}
-              keyboardType='default'
-              returnKeyType='go'
-              autoCapitalize='none'
-              autoCorrect={false}
-              secureTextEntry
-              onChangeText={this.handleChangePassword}
-              underlineColorAndroid='transparent'
-              onSubmitEditing={this.handlePressLogin}
-              />
-          </Item>
         </Form>
           <View style={[Styles.loginRow]}>
             <Button style={{flex: 1, justifyContent: 'center'}} full onPress={this.handlePressLogin}>
               <NBText>
-                Sign In
+                Get started
               </NBText>
             </Button>
-            <Button style={{flex: 1, justifyContent: 'center'}} full onPress={NavigationActions.pop}>
-              <NBText>
-                Cancel
-              </NBText>
-            </Button>
+
           </View>
         </View>
 

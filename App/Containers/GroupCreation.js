@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, Text, Image, View } from 'react-native'
+import { TouchableOpacity, ScrollView, Text, Image, View } from 'react-native'
 import { Button, Text as NBText } from 'native-base'
 import { Images } from '../Themes'
 import { DefaultRenderer, Actions as NavigationActions } from 'react-native-router-flux'
@@ -7,32 +7,38 @@ import { DefaultRenderer, Actions as NavigationActions } from 'react-native-rout
 // Styles
 import styles from './Styles/LaunchScreenStyles'
 
-export default class LaunchScreen extends React.Component {
+export default class GroupCreation extends React.Component {
+  handleNewGroup() {
+    NavigationActions.waitingRoom();
+  }
 
   render () {
     return (
       <View style={styles.mainContainer}>
         <Image source={Images.background} style={styles.backgroundImage} resizeMode='stretch' />
         <ScrollView style={styles.container}>
-          <View style={styles.centered}>
-            <Image source={Images.launch} style={styles.logo} />
-          </View>
+
 
           <View style={styles.section} >
             <Image source={Images.ready} />
             <Text style={styles.sectionText}>
-              {"This probably isn't what your app is going to look like. Unless your designer handed you this screen and, in that case, congrats! You're ready to ship. For everyone else, this is where you'll see a live preview of your fully functioning app using Ignite."}
+              {"Getting hungry? Let's make a group or join one of our friends'."}
             </Text>
           </View>
-          <Button style={{alignSelf: 'center'}} onPress={()=> NavigationActions.login()}>
-            <NBText>Hungry?</NBText>
+          <Button style={{alignSelf: 'center'}} onPress={()=> this.handleNewGroup()}>
+            <NBText>I'll grab my friends!</NBText>
           </Button>
+          <TouchableOpacity style={{alignSelf: 'center'}} onPress={() => NavigationActions.joinGroup()}>
+              <View>
+                <Text> My friend already made a group. </Text>
+              </View>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     )
   }
 }
 
-LaunchScreen.contextTypes = {
+GroupCreation.contextTypes = {
   drawer: React.PropTypes.object
 }
