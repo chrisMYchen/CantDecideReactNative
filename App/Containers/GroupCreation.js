@@ -1,6 +1,6 @@
 import React from 'react'
 import { TouchableOpacity, ScrollView, Text, Image, View } from 'react-native'
-import { Button, Text as NBText } from 'native-base'
+import { Button, Text as NBText, Container, Content, Icon } from 'native-base'
 import { Images } from '../Themes'
 import { DefaultRenderer, Actions as NavigationActions } from 'react-native-router-flux'
 
@@ -14,13 +14,16 @@ export default class GroupCreation extends React.Component {
 
   render () {
     return (
-      <View style={styles.mainContainer}>
-        <Image source={Images.background} style={styles.backgroundImage} resizeMode='stretch' />
-        <ScrollView style={styles.container}>
+      <Container>
 
-
+        <Image style={styles.backgroundImage} resizeMode='stretch' />
+        <Content>
+          <Button iconLeft light onPress={()=> NavigationActions.pop()}>
+           <Icon name='arrow-back' />
+           <Text>Back</Text>
+         </Button>
           <View style={styles.section} >
-            <Image source={Images.ready} />
+            <Image />
             <Text style={styles.sectionText}>
               {"Getting hungry? Let's make a group or join one of our friends'."}
             </Text>
@@ -33,8 +36,8 @@ export default class GroupCreation extends React.Component {
                 <Text> My friend already made a group. </Text>
               </View>
           </TouchableOpacity>
-        </ScrollView>
-      </View>
+        </Content>
+      </Container>
     )
   }
 }

@@ -9,7 +9,8 @@ import ListviewExample from '../Containers/ListviewExample'
 import CardExample from '../Containers/CardExample'
 import Login from '../Containers/LoginScreen'
 import WaitingRoom from '../Containers/WaitingRoom'
-
+import JoinGroup from '../Containers/JoinGroup'
+import RestaurantSwiper from '../Containers/RestaurantSwiper'
 /* **************************
 * Documentation: https://github.com/aksonov/react-native-router-flux
 ***************************/
@@ -19,12 +20,12 @@ class NavigationRouter extends Component {
     return (
       <Router>
         <Scene key='drawer' component={NavigationDrawer} open={false}>
-          <Scene key='login' component={Login} title='Login' />
           <Scene initial key='launchScreen' component={LaunchScreen} title='LaunchScreen' />
-          <Scene key='waitingRoom' component={WaitingRoom} />
+          <Scene key='login' component={Login} title='Login' />
           <Scene key='groupCreation' component={GroupCreation} />
-          <Scene key='listViewExample' component={ListviewExample}/>
-          <Scene key='cardExample' component={CardExample}/>
+          <Scene key='joinGroup' component={JoinGroup} />
+          <Scene key='waitingRoom' component={WaitingRoom} />
+          <Scene key='restaurantSwiper' component={RestaurantSwiper} />
         </Scene>
       </Router>
     )

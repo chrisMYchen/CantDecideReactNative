@@ -1,6 +1,6 @@
 import React from 'react'
 import { TouchableOpacity, ScrollView, Text, Image, View } from 'react-native'
-import { Button, Text as NBText } from 'native-base'
+import { Button, Text as NBText, Container, Content, Icon } from 'native-base'
 import { Images } from '../Themes'
 import { DefaultRenderer, Actions as NavigationActions } from 'react-native-router-flux'
 
@@ -14,23 +14,39 @@ export default class WaitingRoom extends React.Component {
 
   render () {
     return (
-      <View style={styles.mainContainer}>
-        <Image source={Images.background} style={styles.backgroundImage} resizeMode='stretch' />
-        <ScrollView style={styles.container}>
+      <Container>
+        <Content padding>
+          <Image style={styles.backgroundImage} resizeMode='stretch' />
+          <Button iconLeft light onPress={()=> NavigationActions.pop()}>
+           <Icon name='arrow-back' />
+           <Text>Back</Text>
+         </Button>
+          <View style={styles.section}>
+          <NBText>
+            Friends:
+          </NBText>
+            <NBText>
+            3
+            </NBText>
+          </View>
+
+          <View style={styles.section}>
           <NBText>
             Your group code is:
           </NBText>
           <NBText>
             1234
           </NBText>
-
-          <Button block>
+          </View>
+          <View style={styles.section}>
+          <Button block onPress={() => NavigationActions.restaurantSwiper()}> 
             <NBText>
             Start swiping!
             </NBText>
           </Button>
-        </ScrollView>
-      </View>
+          </View>
+        </Content>
+      </Container>
     )
   }
 }

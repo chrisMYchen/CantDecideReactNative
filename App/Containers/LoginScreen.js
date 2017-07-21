@@ -14,7 +14,7 @@ import Styles from './Styles/LoginScreenStyles'
 import {Images, Metrics} from '../Themes'
 import LoginActions from '../Redux/LoginRedux'
 import { Actions as NavigationActions } from 'react-native-router-flux'
-import { Button, Text as NBText, Contant, Form, Item, Input, Label } from 'native-base'
+import { Button, Text as NBText, Contant, Form, Item, Input, Label, Container, Content } from 'native-base'
 
 class LoginScreen extends React.Component {
 
@@ -101,7 +101,8 @@ class LoginScreen extends React.Component {
     const editable = !fetching
     const textInputStyle = editable ? Styles.textInput : Styles.textInputReadonly
     return (
-      <ScrollView contentContainerStyle={{justifyContent: 'center'}} style={[Styles.container, {height: this.state.visibleHeight}]} keyboardShouldPersistTaps='always'>
+      <Container>
+        <Content padding>
 
         <View style={Styles.form}>
         <Form>
@@ -130,8 +131,8 @@ class LoginScreen extends React.Component {
 
           </View>
         </View>
-
-      </ScrollView>
+        </Content>
+      </Container>
     )
   }
 
